@@ -80,7 +80,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         bottom: TabBar(
+          labelPadding: EdgeInsets.only(left: 30.0,right: 30.0,bottom: 10.0),
+          indicatorSize: TabBarIndicatorSize.tab,
           tabs: labels,
+          indicatorColor: Colors.orange,
           isScrollable: true,
           controller: _tabCtrl,
         ),
