@@ -48,6 +48,7 @@ List<Widget> labels = [Text("标签01"), Text("标签02"), Text("标签03")];
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   int _counter = 0;
   TabController _tabCtrl;
+  PageController _pageCtrl;
 
   void _incrementCounter() {
     setState(() {
@@ -60,10 +61,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     });
   }
 
+
+
   @override
   void initState() {
     super.initState();
     _tabCtrl = TabController(length: 3,vsync: this);
+    _pageCtrl = PageController(initialPage: 0,keepPage: true);
   }
 
   @override
@@ -76,11 +80,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
+        // Here we take the value from the My HomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         bottom: TabBar(
-          labelPadding: EdgeInsets.only(left: 30.0,right: 30.0,bottom: 10.0),
+          labelPadding: EdgeInsets.only(left: 30.0,right: 30.0,bottom: 10.0,top: 10.0),
           indicatorSize: TabBarIndicatorSize.tab,
           tabs: labels,
           indicatorColor: Colors.orange,
@@ -88,11 +92,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           controller: _tabCtrl,
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return sasukeMainWidget(index);
+      body: PageView(
+        onPageChanged: (index){
+          _tabCtrl.animateTo(index);
         },
-        itemCount: 20,
+        controller: _pageCtrl,
+        children: <Widget>[
+          createPageViews(1),
+          createPageViews(2),
+          createPageViews(3),
+        ],
       ),
       // Center is a layout widget. It takes a single child and positions it
       // in the middle of the parent.
@@ -129,6 +138,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+createPageViews(int childrenCount){
+  return ListView.builder(
+    itemBuilder: (BuildContext context, int index) {
+      return sasukeMainWidget(index);
+    },
+    itemCount: childrenCount,
+  );
 }
 
 //单个Card
